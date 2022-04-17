@@ -1,0 +1,75 @@
+<%- include('componentLayout/menu') %>
+<h2 class="page-title">Topic</h2>
+<div class="card">
+  <div class="card-menu bg-dark pl-5 pr-5 pt-4 pb-4">
+    <ul class="nav nav-pills card-menu-pills">
+      <li class="nav-item">
+        <h5 class="text-light"><%- campaign.title %></h5>
+      </li>
+      <li class="nav-item ml-auto">
+        <% if(campaign.first_closure > current){%>
+        <h5 style="color: rgb(0, 255, 0)">Open</h5>
+        <% }else if(campaign.first_closure <= current && campaign.final_closure
+        > current){%>
+        <h5 style="color: orange">First closure closed</h5>
+        <%}else{%>
+        <h5 style="color: red">Closed</h5>
+        <% } %>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <p class="card-text"><%- campaign.name %></p>
+    <p class="card-text">
+      Start date <br>
+      <%- campaign.first_closure.getMonth() + 1 %>/<%-
+      campaign.final_closure.getDate()%>/<%-
+      campaign.final_closure.getFullYear() %> <%-
+      campaign.final_closure.getHours()%>:<%-
+      campaign.final_closure.getMinutes() %>
+    </p>
+    <p class="card-text">
+      Deadline <br>
+      <%- campaign.final_closure.getMonth() + 1 %>/<%-
+      campaign.final_closure.getDate()%>/<%-
+      campaign.final_closure.getFullYear() %> <%-
+      campaign.final_closure.getHours()%>:<%-
+      campaign.final_closure.getMinutes() %>
+    </p>
+  </div>
+</div>
+
+<% if(campaign.first_closure > current){%>
+<button class="bg-dark text-light rounded mt-2 mb-2" onclick="document.location='/submit_idea/<%= campaign._id %>'">
+  Submit idea
+</button>
+<% }else if(campaign.first_closure <= current && campaign.final_closure >
+current){%>
+<button class="bg-dark text-light rounded mt-2 mb-2" onclick="document.location='/submit_idea/<%= campaign._id %>'" disabled>
+  Submit idea
+</button>
+<%}else{%>
+<button class="bg-dark text-light rounded mt-2 mb-2" onclick="document.location='/submit_idea/<%= campaign._id %>'" disabled>
+  Submit idea
+</button>
+<% } %>
+
+<br />
+<h2 class="page-title">All Ideas</h2>
+
+<% if(ideas != ''){%> <% ideas.forEach(function(idea, index){ %>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"><%- idea.title %></h5>
+    <p class="card-text"><%- idea.content %></p>
+    <p class="card-text">Uploaded <%- idea.upload_file.length %> file</p>
+    <p class="card-text">
+      View: <%= idea.viewBy.length %> - 
+      Comment: <%= idea.comments.length %> - 
+      Like: <%= idea.likeBy.length %> - 
+      DisLike: <%= idea.dislikeBy.length %>
+    </p>
+    <a href="/idea_detail/<%= idea._id %>" class="stretched-link text-dark font-weight-bold">View</a>
+  </div>
+</div>
+<% }) %> <% } %> <%- include('componentLayout/footer') %>

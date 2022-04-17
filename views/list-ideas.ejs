@@ -1,0 +1,123 @@
+<%- include('componentLayout/menu') %> 
+
+<div class="dropdown">
+  <button class="btn btn-dark dropdown-toggle mt-4 mb-3 ml-5" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort by
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="/list_ideas/1?sort=mostviews">Most view</a>
+    <a class="dropdown-item" href="/list_ideas/1?sort=mostlikes">Most like</a>
+    <a class="dropdown-item" href="/list_ideas/1?sort=mostcomments">Most comment</a>
+    <a class="dropdown-item" href="/list_ideas/1?sort=mostdislikes">Most dislike</a>
+    <a class="dropdown-item" href="/list_ideas/1?sort=recentidea">Newest idea</a>
+  </div>
+</div>
+
+<table class="table bg-light rounded ml-5">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>No.likes</th>
+            <th>No.dislikes</th>
+            <th>No.comments</th>
+            <th>No.views</th>
+            <th>No.files upload</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if(ideas != ''){%> <% ideas.forEach(function(idea, index){ %>
+              <tr>
+                <td><%- index %></td>
+                <td><%- idea.title %></td>
+                <td><%- idea.content %></td>
+                <td><%- idea.numberOfLikes %> </td>
+                <td><%- idea.numberOfDislikes %> </td>
+                <td><%- idea.numberOfComments %> </td>
+                <td><%- idea.numberOfViews %> </td>
+                <% if(idea.upload_file.length != 0) {%> 
+                     <% idea.upload_file.forEach(function(file, index){ %> 
+                    <td>
+                      <% if(file.mimetype.includes('image')){ %> 
+                      <img src="/uploads/<%= idea.campaign_id %>/<%= file.default_image %> " width="100px" height="100px" class="w-100" alt="...">
+                      <% }else{ %> 
+                      <img src="/uploads/<%= file.default_image %>" width="100px" height="100px" class="w-100" alt="...">
+                      <% } %> 
+                      <a href="/uploads/<%= idea.campaign_id %>/<%= file.filename %>" download=<%= file.filename %> ><%= file.filename.slice(0, 15) %> </a>
+                    </td>
+                    <% }) %>               
+                <% }else{ %> 
+                    <td>No file</td>
+                <% } %> 
+              </tr>
+              <% }) %> 
+        <% } %>
+    </tbody>
+</table>
+
+ <!-- Pagination function -->
+  <div class="row ml-5">
+    <% if(pages > 0) { %>
+    <nav class="mx-auto">
+      <ul class="pagination" style="margin-top: 2rem;">   
+        <!-- First page -->  
+        <% if(current == 1) { %> 
+            <li class="page-item disabled">
+              <a class="page-link" href="/">First</a>
+            </li>
+        <% } else { %>
+            <li class="page-item">
+              <a class="page-link" href="/list_ideas/1<%= sort %>">First</a>
+            </li>
+        <% } %>
+        
+        <!-- ITEMS  -->
+        <% var i = (Number(current) > 3 ? Number(current) - 2 : 1) %> 
+        <% if(i !== 1) { %>
+            <li class="page-item disabled">
+              <a class="page-link" href="#">...</a>
+            </li>
+        <% } %>
+        <% for(; i <= (Number(current) + 2) && i <= pages; i++) { %>
+          <% if(i == current) { %>
+            <li class="page-item active">
+              <a class="page-link" href="/list_ideas/<%= i %><%= sort %>">
+                <%= i %>
+              </a>
+            </li>
+        <% } else { %>
+            <li class="page-item">
+              <a class="page-link" href="/list_ideas/<%= i %><%= sort %>">
+                <%= i %>
+              </a>
+            </li>
+        <% } %>
+        <% if (i == Number(current) + 2 && i < pages) { %>
+            <li class="page-item disabled">
+              <a class="page-link" href="#">...</a>
+            </li>
+        <% } %>
+        <% } %>
+        
+        <!-- Last -->
+        <% if(current == pages) { %> 
+            <li class="page-item disabled">
+              <a class="page-link" href="#">
+                Last
+              </a>
+            </li>
+        <% } else { %>
+            <li class="page-item">
+              <a class="page-link" href="/list_ideas/<%= pages %><%= sort %>">
+                Last
+              </a>
+            </li>
+        <% } %>
+      </ul>
+    </nav>
+    <% } %>
+  </div>
+</div>
+
+<%- include('componentLayout/footer')  %> 

@@ -1,0 +1,93 @@
+<%- include('componentLayout/menu') %> 
+
+<% if(idea != ''){%>
+<div class="row no-gutters mt-5 rounded border border-dark">
+  <% idea.upload_file.forEach(function(file, index){ %>
+  <div class="col-md-6 mb-md-0 p-md-4">
+    <% if(file.mimetype.includes('image')){ %>
+    <img
+      src="/uploads/<%= idea.campaign_id %>/<%= file.default_image %> "
+      width="100px"
+      height="100px"
+      class="w-100"
+      alt="..."
+    />
+    <% }else{ %>
+    <img
+      src="/uploads/<%= file.default_image %>"
+      width="100px"
+      height="100px"
+      class="w-100"
+      alt="..."
+    />
+    <% } %>
+    <a
+      href="/uploads/<%= idea.campaign_id %>/<%= file.filename %>"
+      download="asdd"
+      ><%- file.filename.slice(0, 25) %>
+    </a>
+  </div>
+  <% }) %>
+  <div class="col-md-6 pl-md-0">
+    <h5 class="mt-4 ml-5">Title: <%- idea.title %></h5>
+  </div>
+  <div class="col-md-7 pl-md-0">
+    <h5 class="mt-4 ml-5">Content: <%- idea.content %></h5>
+  </div>
+
+  <div class="col-md-8 position-static p-4 ">
+    View: <%= idea.viewBy.length %> - 
+    Comment: <%= idea.comments.length %> - 
+    Like: <%= idea.numberOfLikes %> - 
+    DisLike: <%= idea.numberOfDislikes%>
+  </div>
+  <% } %> <% if(likeState.isLike){ %>
+  <form action="/unlike/<%= idea._id %> " method="get">
+    <button class="btn btn-dark mt-3"> UnLike</button>
+  </form>
+  <% } else{ %>
+  <form
+    action="/like/<%= idea._id %>?state=<%= likeState.isDislike %>"
+    method="post"
+  >
+    <button class="btn btn-dark mt-3 mr-3"> Like</button>
+  </form>
+  <% } %> <% if(likeState.isDislike){ %>
+  <form action="/unDislike/<%= idea._id %> " method="get">
+    <button class="btn btn-dark mt-3">UnDislike</button>
+  </form>
+  <% } else{ %>
+  <form
+    action="/dislike/<%= idea._id %>?state=<%= likeState.isLike %>"
+    method="post"
+  >
+    <button class="btn btn-dark ml-3 mt-3"> Dislike</button>
+  </form>
+  <% } %>
+</div>
+
+<div class="card h-100 bg-light rounded border border-dark">
+  <div class="card-body overflow-auto">
+    <div class="form-group">
+      <form action="/comment/<%= idea._id %> " method="post">
+        <div class="form-group">
+          <input
+            type="text"
+            name="comment"
+            class="form-control"
+            required="true"
+          />
+        </div>
+        <button class="btn btn-dark mb-2">Comment</button>
+      </form>
+      <% if(idea.comments != ''){%> <% idea.comments.forEach(function(comment,
+      index){ %>
+      <div class="">
+        <h5 class="mt-0">Anonymous</h5>
+      </div>
+      <div class=""><%= comment.content %></div>
+      <% }) %> <% } %>
+    </div>
+  </div>
+</div>
+<%- include('componentLayout/footer') %>

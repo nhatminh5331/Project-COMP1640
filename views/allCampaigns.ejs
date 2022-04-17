@@ -1,0 +1,47 @@
+<%- include('componentLayout/menu') %> 
+
+
+<% if(campaigns != ''){%> <%
+campaigns.forEach(function(campaign, index){ %>
+<div class="card mt-3">
+  <div class="card-menu bg-dark pl-5 pr-5 pt-4 pb-4">
+    <ul class="nav nav-pills card-menu-pills">
+      <li class="nav-item">
+        <h5 class="text-light"><%- campaign.title %></h5>
+      </li>
+      <li class="nav-item ml-auto">
+        <% if(campaign.first_closure > current){%>
+        <h5 style="color: rgb(34, 255, 0)">Open</h5>
+        <% }else if(campaign.first_closure <= current && campaign.final_closure
+        > current){%>
+        <h5 style="color: rgb(255, 136, 0)">First closure closed</h5>
+        <%}else{%>
+        <h5 style="color: rgb(50, 71, 57)">Closed</h5>
+        <% } %>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <p class="card-text"><%- campaign.name %></p>
+    <p class="card-text">
+      Start date <br>
+      <%- campaign.first_closure.getMonth() + 1 %>/<%-
+      campaign.final_closure.getDate()%>/<%-
+      campaign.final_closure.getFullYear() %> <%-
+      campaign.final_closure.getHours()%>:<%-
+      campaign.final_closure.getMinutes() %>
+    </p>
+    <p class="card-text">
+      Deadline <br>
+      <%- campaign.final_closure.getMonth() + 1 %>/<%-
+      campaign.final_closure.getDate()%>/<%-
+      campaign.final_closure.getFullYear() %> <%-
+      campaign.final_closure.getHours()%>:<%-
+      campaign.final_closure.getMinutes() %>
+    </p>
+    <a href="/campaign_detail/<%= campaign._id %>" class="stretched-link text-dark font-weight-bold"
+      >View</a
+    >
+  </div>
+</div>
+<% }) %> <% } %> <%- include('componentLayout/footer') %>

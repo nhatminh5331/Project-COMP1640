@@ -1,0 +1,29 @@
+<%- include('componentLayout/menu') %> 
+
+<h2 class="page-title" >Submit an Idea</h2>
+<a href="/admin/accounts" class="btn btn-dark">Back to Campaign</a>
+<br><br>
+
+<form action="/submit_idea/upload" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="">Title</label>
+        <input type="text" name="title" id="" value=" " class="form-control" placeholder="Enter email" required="true" >
+        <input type="hidden" name="campaignId" value="<%= campaign_id %>">
+    </div>
+    <div class="form-group">
+        <label for="">Content</label>
+        <textarea name="content" id="ta" cols="30" rows="10"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="">Upload Files</label>
+        <input type="file" name="files" class="form-control" accept=
+            "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+            text/plain, application/pdf, image/*" multiple>
+    </div>
+     <div class="form-group">
+        <input type="checkbox" name="vehicle1" required>
+        I agree to the terms and conditions of the <a href="#">Submit idea term</a> before upload this idea
+    </div>
+    <button class="btn btn-dark">Submit</button>
+</form>
+<%- include('componentLayout/footer')  %> 

@@ -1,0 +1,33 @@
+<%- include('../componentLayout/adminMenu') %> 
+
+<h2 class="page-title mt-3 d-flex justify-content-center" >Create new department</h2>
+<br><br>
+
+<form action="/adminPage/createDepartment" method="post">
+    <div class="form-group">
+        <label for="">New department </label>
+        <input type="text" name="name" id="" value=" " class="form-control" placeholder="Department name" required="true" >
+    </div>
+    <button class="btn btn-dark mb-3">Submit</button>
+</form>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if(departments != ''){%> <% departments.forEach(function(department, index){ %>
+              <tr>
+                <td><%- index %></td>
+                <td><%- department.department_name %></td>
+              </tr>
+              <% }) %> 
+        <% } %>
+    </tbody>
+</table>
+
+<%- include('../componentLayout/footer')  %> 

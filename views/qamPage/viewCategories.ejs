@@ -1,0 +1,40 @@
+<%- include('../componentLayout/qamMenu') %> 
+
+<h2 class="page-title mt-4 d-flex justify-content-center">Categories</h2>
+<br>
+<form action="/qamPage/create_category" method="post">
+    <div class="form-group">
+        <label>Add new category </label>
+        <input type="text" name="name" id="" class="form-control" placeholder="Category name" required="true" >
+    </div>
+    <button class="btn btn-dark">Add</button>
+</form>
+<br>
+<table class="table bg-light">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>No. topics</th>
+            <th>Feature</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if(categories != ''){%> <% categories.forEach(function(category, index){ %>
+              <tr>
+                <td><%- index %></td>
+                <form action="/qamPage/edit_category/<%= category._id %> " method="post">
+                    <td><input class="rounded" type="text" name="name" id="" value="<%- category.category %>"></td>
+                    <td><%- category.campaign.length %> </td>
+                    <td>
+                  <button class="btn btn-dark">Edit</button>
+                </form>
+                  <a href="/qamPage/delete_category/<%- category._id %>" class="btn btn-dark" onclick="">Delete</a>
+                </td>
+              </tr>
+              <% }) %> 
+        <% } %>
+    </tbody>
+</table>
+<%- include('../componentLayout/footer')  %> 

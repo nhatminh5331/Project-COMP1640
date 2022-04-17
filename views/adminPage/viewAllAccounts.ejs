@@ -1,0 +1,34 @@
+<%- include('../componentLayout/adminMenu') %> 
+
+<h2 class="page-title mt-5 mb-5 d-flex justify-content-center">List all account</h2>
+<a href="/adminPage/create_account" class="btn btn-dark mb-3 d-flex justify-content-center">Create a new account</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Feature</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if(user != ''){%> <% user.forEach(function(user, index){ %>
+              <tr>
+                <td><%- index %></td>
+                <td><%- user.email %></td>
+                <td><%- user.department %> </td>
+                <td><%- user.role %></td>
+                <td>
+                  <a href="/adminPage/edit_account/<%- user._id %>" class="btn btn-dark p-2">Edit</a>
+                <% if(user && user.role !=='admin') {%>
+                  <a href="/adminPage/delete_account/<%- user._id %>" class="btn btn-dark p-2" onclick="">Delete</a>
+                <%} %>
+                </td>
+              </tr>
+              <% }) %> 
+        <% } %>
+    </tbody>
+</table>
+<%- include('../componentLayout/footer')  %> 
